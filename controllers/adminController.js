@@ -1,6 +1,9 @@
 const Admin = require("../models/Admin.js");
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const Student = require("../models/Student.js");
+const Teacher = require("../models/Teacher.js");
+const Note = require("../models/Note.js");
 
 // Register Admin
 exports.registerAdmin = async (req, res) => {
@@ -75,5 +78,33 @@ exports.loginAdmin = async (req, res) => {
         });
     } catch (e) {
         res.status(500).json({ error: e.message });
+    }
+};
+
+// Get Dashboard Stats
+exports.getStats = async (req, res) => {
+    try {
+        const totalStudents = await Student.countDocuments();
+        const totalTeachers = await Teacher.countDocuments();
+        const totalNotes = await Note.countDocuments();
+
+        res.json({
+            totalUsers: totalStudents + totalTeachers,
+            activeTeachers: totalTeachers,
+            totalNotes: totalNotes,
+            engagementRate: "75%"
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+// Get All Teachers
+exports.getTeachers = async (req, res) => {
+    try {
+        const teachers = await Teacher.find().select("-password");
+        res.json(teachers);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
 };

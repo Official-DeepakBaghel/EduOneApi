@@ -50,3 +50,38 @@ exports.getBooks = async (req, res) => {
         res.status(500).json({ message: "Error fetching books", error: error.message });
     }
 };
+
+// Update Book
+exports.updateBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, bookNumber, author, category, description, coverUrl } = req.body;
+
+        const book = await Book.findById(id);
+        if (!book) return res.status(404).json({ message: "Book not found" });
+
+        book.title = title || book.title;
+        book.bookNumber = bookNumber || book.bookNumber;
+        book.author = author || book.author;
+        book.category = category || book.category;
+        book.description = description || book.description;
+        book.coverUrl = coverUrl || book.coverUrl;
+
+        await book.save();
+        res.json({ message: "Book updated successfully", book });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating book", error: error.message });
+    }
+};
+
+// Delete Book
+exports.deleteBook = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const book = await Book.findByIdAndDelete(id);
+        if (!book) return res.status(404).json({ message: "Book not found" });
+        res.json({ message: "Book deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting book", error: error.message });
+    }
+};

@@ -42,3 +42,57 @@ exports.updateLocation = async (req, res) => {
         res.status(500).json({ message: "Error updating location", error: error.message });
     }
 };
+
+// Add Bus
+exports.addBus = async (req, res) => {
+    try {
+        const { busNumber, routeName, driverName, driverId } = req.body;
+
+        const bus = new Bus({
+            busNumber,
+            routeName,
+            driverName,
+            driverId,
+            currentLocation: { lat: 0, lng: 0 },
+            isTripActive: false
+        });
+
+        await bus.save();
+        res.status(201).json({ message: "Bus added successfully", bus });
+    } catch (error) {
+        res.status(500).json({ message: "Error adding bus", error: error.message });
+    }
+};
+
+// Update Bus
+exports.updateBus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { busNumber, routeName, driverName, driverId } = req.body;
+
+        const bus = await Bus.findById(id);
+        if (!bus) return res.status(404).json({ message: "Bus not found" });
+
+        bus.busNumber = busNumber || bus.busNumber;
+        bus.routeName = routeName || bus.routeName;
+        bus.driverName = driverName || bus.driverName;
+        bus.driverId = driverId || bus.driverId;
+
+        await bus.save();
+        res.json({ message: "Bus updated successfully", bus });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating bus", error: error.message });
+    }
+};
+
+// Delete Bus
+exports.deleteBus = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const bus = await Bus.findByIdAndDelete(id);
+        if (!bus) return res.status(404).json({ message: "Bus not found" });
+        res.json({ message: "Bus deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting bus", error: error.message });
+    }
+};

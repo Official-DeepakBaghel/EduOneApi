@@ -54,3 +54,36 @@ exports.getNotes = async (req, res) => {
         res.status(500).json({ message: "Error fetching notes", error: error.message });
     }
 };
+
+// Update Note
+exports.updateNote = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const { title, description, course, subject } = req.body;
+
+        const note = await Note.findById(id);
+        if (!note) return res.status(404).json({ message: "Note not found" });
+
+        note.title = title || note.title;
+        note.description = description || note.description;
+        note.course = course || note.course;
+        note.subject = subject || note.subject;
+
+        await note.save();
+        res.json({ message: "Note updated successfully", note });
+    } catch (error) {
+        res.status(500).json({ message: "Error updating note", error: error.message });
+    }
+};
+
+// Delete Note
+exports.deleteNote = async (req, res) => {
+    try {
+        const { id } = req.params;
+        const note = await Note.findByIdAndDelete(id);
+        if (!note) return res.status(404).json({ message: "Note not found" });
+        res.json({ message: "Note deleted successfully" });
+    } catch (error) {
+        res.status(500).json({ message: "Error deleting note", error: error.message });
+    }
+};

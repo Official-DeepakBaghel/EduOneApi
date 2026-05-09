@@ -4,6 +4,9 @@ const busController = require("../controllers/busController");
 const authMiddleware = require("../middleware/authMiddleware");
 
 router.get("/", authMiddleware, busController.getBuses);
+router.post("/", authMiddleware, busController.addBus);
+router.put("/:id", authMiddleware, busController.updateBus);
+router.delete("/:id", authMiddleware, busController.deleteBus);
 router.post("/:id/trip/start", authMiddleware, busController.startTrip);
 router.post("/:id/trip/end", authMiddleware, busController.endTrip);
 router.put("/:id/location", authMiddleware, busController.updateLocation);
