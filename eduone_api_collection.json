@@ -528,6 +528,62 @@
 					"response": []
 				},
 				{
+					"name": "Upload Note",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "title",
+									"value": "Note Title",
+									"type": "text"
+								},
+								{
+									"key": "description",
+									"value": "Note Description",
+									"type": "text"
+								},
+								{
+									"key": "course",
+									"value": "BCA",
+									"type": "text"
+								},
+								{
+									"key": "subject",
+									"value": "Programming",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/notes",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"notes"
+							]
+						}
+					},
+					"response": []
+				},
+				{
 					"name": "Update Note",
 					"request": {
 						"method": "PUT",
@@ -792,6 +848,96 @@
 						}
 					},
 					"response": []
+				},
+				{
+					"name": "Start Trip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/buses/:id/trip/start",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"buses",
+								":id",
+								"trip",
+								"start"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "End Trip",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/buses/:id/trip/end",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"buses",
+								":id",
+								"trip",
+								"end"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Location",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "json",
+							"json": "{\n    \"lat\": 28.1234,\n    \"lng\": 77.1234\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/buses/:id/location",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"buses",
+								":id",
+								"location"
+							]
+						}
+					},
+					"response": []
 				}
 			]
 		},
@@ -824,6 +970,100 @@
 								"api",
 								"attendance",
 								"bulk"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Leaves",
+			"item": [
+				{
+					"name": "Apply Leave",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "json",
+							"json": "{\n    \"startDate\": \"2026-05-10\",\n    \"endDate\": \"2026-05-12\",\n    \"reason\": \"Fever\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/leaves",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"leaves"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get My Leaves",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:5000/api/leaves/my",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"leaves",
+								"my"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Update Leave Status",
+					"request": {
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Authorization",
+								"value": "Bearer {{token}}",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "json",
+							"json": "{\n    \"status\": \"Approved\"\n}"
+						},
+						"url": {
+							"raw": "http://localhost:5000/api/leaves/:id/status",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "5000",
+							"path": [
+								"api",
+								"leaves",
+								":id",
+								"status"
 							]
 						}
 					},

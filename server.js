@@ -21,6 +21,7 @@ app.use("/api/notes", require("./routes/noteRoutes"));
 app.use("/api/books", require("./routes/bookRoutes"));
 app.use("/api/buses", require("./routes/busRoutes"));
 app.use("/api/attendance", require("./routes/attendanceRoutes"));
+app.use("/api/leaves", require("./routes/leaveRoutes"));
 
 
 const PORT = process.env.PORT || 5000;
