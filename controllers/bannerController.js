@@ -1,72 +1,31 @@
-const Banner = require("../models/Banner");
-const fs = require("fs");
+const Banner = require("../models/Banner.js");
 
-// Create Banner
-exports.createBanner = async (req, res) => {
-  try {
-    if (!req.file) {
-      return res.status(400).json({ message: "Please upload an image" });
+// Add Banner
+exports.addBanner = async (req, res) => {
+    try {
+        const { imageUrl, description } = req.body;
+
+        if (!imageUrl) {
+            return res.status(400).json({ message: "Image URL is required" });
+        }
+
+        const banner = await Banner.create({ imageUrl, description });
+
+        res.status(201).json({
+            message: "Banner added successfully",
+            banner
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-
-    const banner = await Banner.create({
-      image: req.file.path,
-    });
-
-    res.status(201).json({
-      success: true,
-      message: "Banner created successfully",
-      banner,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };
 
-// Get All Banners
+// Get Banners
 exports.getBanners = async (req, res) => {
-  try {
-    const banners = await Banner.find().sort({ createdAt: -1 });
-
-    res.status(200).json({
-      success: true,
-      banners,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
-};
-
-// Delete Banner
-exports.deleteBanner = async (req, res) => {
-  try {
-    const { id } = req.params;
-
-    const banner = await Banner.findById(id);
-    if (!banner) {
-      return res.status(404).json({ message: "Banner not found" });
+    try {
+        const banners = await Banner.find();
+        res.json(banners);
+    } catch (error) {
+        res.status(500).json({ error: error.message });
     }
-
-    // Delete the file from the uploads folder
-    if (fs.existsSync(banner.image)) {
-      fs.unlinkSync(banner.image);
-    }
-
-    await Banner.findByIdAndDelete(id);
-
-    res.status(200).json({
-      success: true,
-      message: "Banner deleted successfully",
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: error.message,
-    });
-  }
 };

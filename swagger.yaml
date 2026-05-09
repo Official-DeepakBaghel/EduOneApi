@@ -1,0 +1,113 @@
+openapi: 3.0.0
+info:
+  title: EduOne API
+  version: 1.0.0
+  description: API documentation for EduOne application.
+servers:
+  - url: http://localhost:5000
+    description: Local server
+paths:
+  /api/notes:
+    get:
+      summary: Get notes
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of notes
+    post:
+      summary: Upload a note
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                description:
+                  type: string
+                course:
+                  type: string
+                subject:
+                  type: string
+                file:
+                  type: string
+                  format: binary
+      responses:
+        '201':
+          description: Note uploaded successfully
+  /api/books:
+    get:
+      summary: Get books
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of books
+    post:
+      summary: Add a book
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                title:
+                  type: string
+                bookNumber:
+                  type: string
+                author:
+                  type: string
+                category:
+                  type: string
+      responses:
+        '201':
+          description: Book added successfully
+  /api/buses:
+    get:
+      summary: Get buses
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: A list of buses
+  /api/attendance/bulk:
+    post:
+      summary: Submit bulk attendance
+      security:
+        - bearerAuth: []
+      requestBody:
+        content:
+          application/json:
+            schema:
+              type: object
+              properties:
+                date:
+                  type: string
+                course:
+                  type: string
+                subject:
+                  type: string
+                records:
+                  type: array
+                  items:
+                    type: object
+                    properties:
+                      studentId:
+                        type: string
+                      status:
+                        type: string
+      responses:
+        '201':
+          description: Attendance submitted successfully
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

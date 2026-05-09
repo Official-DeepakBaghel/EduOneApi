@@ -1,34 +1,29 @@
 const mongoose = require("mongoose");
 
-const attendanceSchema = new mongoose.Schema(
-  {
-    user: {
-      type: mongoose.Schema.Types.ObjectId,
-      refPath: "roleModel",
-      required: true,
-    },
-    roleModel: {
-      type: String,
-      required: true,
-      enum: ["Student", "Teacher"],
+const attendanceSchema = new mongoose.Schema({
+    userId: {
+        type: String,
+        required: true
     },
     date: {
-      type: String, // format: YYYY-MM-DD
-      required: true,
+        type: String, // YYYY-MM-DD
+        required: true
     },
     clockIn: {
-      type: String, // format: HH:mm AM/PM
+        type: String // HH:MM:SS
     },
     clockOut: {
-      type: String, // format: HH:mm AM/PM
+        type: String // HH:MM:SS
     },
     status: {
-      type: String,
-      enum: ["Present", "Absent", "Sunday", "Holiday"],
-      default: "Present",
-    },
-  },
-  { timestamps: true }
-);
+        type: String,
+        default: "Present"
+    }
+}, {
+    timestamps: true
+});
+
+// Ensure unique attendance record per user per day
+attendanceSchema.index({ userId: 1, date: 1 }, { unique: true });
 
 module.exports = mongoose.model("Attendance", attendanceSchema);

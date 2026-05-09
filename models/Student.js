@@ -42,7 +42,12 @@ const studentSchema = new mongoose.Schema({
     mobileNumber: {
         type: String,
         required: true
+    },
+    classId: {
+        type: String,
+        required: true
     }
+
 }, {
     timestamps: true
 });

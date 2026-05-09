@@ -1,10 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const { clockIn, clockOut, getMyAttendance } = require("../controllers/attendanceController");
+const attendanceController = require("../controllers/attendanceController");
 const authMiddleware = require("../middleware/authMiddleware");
 
-router.post("/clock-in", authMiddleware, clockIn);
-router.post("/clock-out", authMiddleware, clockOut);
-router.get("/my-attendance", authMiddleware, getMyAttendance);
+router.post("/clock-in", authMiddleware, attendanceController.clockIn);
+router.post("/clock-out", authMiddleware, attendanceController.clockOut);
+router.post("/bulk", authMiddleware, attendanceController.submitBulkAttendance);
 
 module.exports = router;

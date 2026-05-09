@@ -61,6 +61,7 @@ exports.registerUser = async (req, res) => {
             userData.sem = sem;
             userData.fatherName = fatherName;
             userData.mobileNumber = mobileNumber;
+            userData.classId = `${course}_${year}_${sem}`.toUpperCase();
         } else {
             // Add teacher-specific fields
             userData.mobileNumber = mobileNumber;
